@@ -1,37 +1,24 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  Pressable,
-  Alert,
-  SectionList,
-  ListRenderItem,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { useHistory } from '@/contexts/HistoryContext';
-import { HistoryItem } from '@/components/HistoryItem';
-import { EmptyState } from '@/components/EmptyState';
-import type { HistoryEntry } from '@/types/calculator';
+import React, { useState, useMemo, useCallback } from "react";
+import { View, Text, FlatList, Pressable, Alert, SectionList, ListRenderItem } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useHistory } from "@/contexts/HistoryContext";
+import { HistoryItem } from "@/components/HistoryItem";
+import { EmptyState } from "@/components/EmptyState";
+import type { HistoryEntry } from "@/types/calculator";
 
-type TabMode = 'all' | 'byCalculator';
+type TabMode = "all" | "byCalculator";
 
 export default function HistoryScreen() {
   const { t } = useLanguage();
-  const {
-    globalHistory,
-    clearHistory,
-    deleteHistoryEntry,
-    toggleHistoryFavorite,
-  } = useHistory();
+  const { globalHistory, clearHistory, deleteHistoryEntry, toggleHistoryFavorite } = useHistory();
 
-  const [activeTab, setActiveTab] = useState<TabMode>('all');
+  const [activeTab, setActiveTab] = useState<TabMode>("all");
 
   const sortedHistory = useMemo(
     () => [...globalHistory].sort((a, b) => b.timestamp - a.timestamp),
-    [globalHistory],
+    [globalHistory]
   );
 
   const groupedSections = useMemo(() => {
@@ -45,18 +32,14 @@ export default function HistoryScreen() {
   }, [sortedHistory]);
 
   const handleClearAll = useCallback(() => {
-    Alert.alert(
-      t('history.clearAll'),
-      t('settings.clearConfirm'),
-      [
-        { text: t('nav.back'), style: 'cancel' },
-        {
-          text: t('history.clearAll'),
-          style: 'destructive',
-          onPress: () => clearHistory(),
-        },
-      ],
-    );
+    Alert.alert(t("history.clearAll"), t("settings.clearConfirm"), [
+      { text: t("nav.back"), style: "cancel" },
+      {
+        text: t("history.clearAll"),
+        style: "destructive",
+        onPress: () => clearHistory(),
+      },
+    ]);
   }, [t, clearHistory]);
 
   const renderHistoryItem = useCallback(
@@ -69,7 +52,7 @@ export default function HistoryScreen() {
         />
       </View>
     ),
-    [deleteHistoryEntry, toggleHistoryFavorite],
+    [deleteHistoryEntry, toggleHistoryFavorite]
   );
 
   const keyExtractor = useCallback((item: HistoryEntry) => item.id, []);
@@ -80,19 +63,17 @@ export default function HistoryScreen() {
         <Text className="text-base font-bold text-text">{section.title}</Text>
       </View>
     ),
-    [],
+    []
   );
 
   const isEmpty = globalHistory.length === 0;
 
   return (
-    <SafeAreaView className="flex-1 bg-background" edges={['top']}>
+    <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
       {/* Header */}
       <View className="flex-row items-center justify-between px-5 pb-2 pt-3">
-        <Text className="text-2xl font-extrabold text-text">
-          {t('history.title')}
-        </Text>
-        {!isEmpty && (
+        <Text className="text-2xl font-extrabold text-text">{t("history.title")}</Text>
+        {/* {!isEmpty && (
           <Pressable
             onPress={handleClearAll}
             hitSlop={8}
@@ -102,40 +83,38 @@ export default function HistoryScreen() {
               {t('history.clearAll')}
             </Text>
           </Pressable>
-        )}
+        )} */}
       </View>
 
       {/* Tabs */}
       {!isEmpty && (
         <View className="mx-5 mb-3 flex-row rounded-chip bg-surface-elevated p-1">
           <Pressable
-            onPress={() => setActiveTab('all')}
+            onPress={() => setActiveTab("all")}
             className={`flex-1 items-center rounded-chip py-2 ${
-              activeTab === 'all' ? 'bg-primary' : ''
+              activeTab === "all" ? "bg-primary" : ""
             }`}
           >
             <Text
               className={`text-sm font-semibold ${
-                activeTab === 'all' ? 'text-white' : 'text-text-secondary'
+                activeTab === "all" ? "text-white" : "text-text-secondary"
               }`}
             >
-              {t('history.global')}
+              {t("history.global")}
             </Text>
           </Pressable>
           <Pressable
-            onPress={() => setActiveTab('byCalculator')}
+            onPress={() => setActiveTab("byCalculator")}
             className={`flex-1 items-center rounded-chip py-2 ${
-              activeTab === 'byCalculator' ? 'bg-primary' : ''
+              activeTab === "byCalculator" ? "bg-primary" : ""
             }`}
           >
             <Text
               className={`text-sm font-semibold ${
-                activeTab === 'byCalculator'
-                  ? 'text-white'
-                  : 'text-text-secondary'
+                activeTab === "byCalculator" ? "text-white" : "text-text-secondary"
               }`}
             >
-              {t('history.byCalculator')}
+              {t("history.byCalculator")}
             </Text>
           </Pressable>
         </View>
@@ -144,11 +123,11 @@ export default function HistoryScreen() {
       {/* Content */}
       {isEmpty ? (
         <EmptyState
-          title={t('history.empty')}
-          description={t('history.emptyDesc')}
+          title={t("history.empty")}
+          description={t("history.emptyDesc")}
           icon="time-outline"
         />
-      ) : activeTab === 'all' ? (
+      ) : activeTab === "all" ? (
         <FlatList
           data={sortedHistory}
           renderItem={renderHistoryItem}

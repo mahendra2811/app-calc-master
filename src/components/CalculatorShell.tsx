@@ -1,13 +1,8 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { HapticButton } from './HapticButton';
+import React from "react";
+import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { HapticButton } from "./HapticButton";
+import i18n from "../i18n";
 
 interface CalculatorShellProps {
   title: string;
@@ -18,65 +13,62 @@ interface CalculatorShellProps {
 }
 
 export function CalculatorShell({
-  title,
+  title: _title,
   children,
   onCalculate,
   onReset,
-  showHistory = true,
+  showHistory: _showHistory = true,
 }: CalculatorShellProps) {
+  const hasButtons = onCalculate || onReset;
+
   return (
-    <SafeAreaView className="flex-1 bg-background" edges={['bottom']}>
+    <SafeAreaView className="flex-1 bg-background" edges={["bottom"]}>
       <KeyboardAvoidingView
         className="flex-1"
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
       >
-        <ScrollView
-          className="flex-1"
-          contentContainerClassName="px-4 pb-8 pt-4"
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Title Bar */}
-          <View className="mb-6">
-            <Text className="text-2xl font-bold text-text">
-              {title}
-            </Text>
-          </View>
+        <View className="flex-1">
+          {/* Scrollable content */}
+          <ScrollView
+            className="flex-1"
+            contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: hasButtons ? 8 : 24 }}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Calculator Content */}
+            <View style={{ gap: 16 }}>{children}</View>
+          </ScrollView>
 
-          {/* Calculator Content */}
-          <View className="gap-4">
-            {children}
-          </View>
-
-          {/* Action Buttons */}
-          {(onCalculate || onReset) && (
-            <View className="mt-8 gap-3">
+          {/* Fixed bottom action buttons — always visible, never scrolls away */}
+          {hasButtons && (
+            <View
+              className="border-t border-border bg-surface px-4 pt-3 pb-3"
+              style={{ gap: 10 }}
+            >
               {onCalculate && (
                 <HapticButton
                   onPress={onCalculate}
                   hapticType="medium"
                   className="items-center rounded-btn bg-primary py-4"
                 >
-                  <Text className="text-lg font-bold text-white">
-                    Calculate
-                  </Text>
+                  <Text className="text-lg font-bold text-white">{i18n.t("calc.calculate")}</Text>
                 </HapticButton>
               )}
               {onReset && (
                 <HapticButton
                   onPress={onReset}
                   hapticType="light"
-                  className="items-center rounded-btn border border-border bg-surface py-3"
+                  className="items-center rounded-btn border border-border bg-background py-3"
                 >
                   <Text className="text-base font-medium text-text-secondary">
-                    Reset
+                    {i18n.t("calc.reset")}
                   </Text>
                 </HapticButton>
               )}
             </View>
           )}
-        </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

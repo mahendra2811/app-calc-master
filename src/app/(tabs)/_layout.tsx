@@ -1,5 +1,4 @@
 import { Tabs } from 'expo-router';
-import { Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -11,18 +10,8 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: {
-          height: 60,
-          paddingBottom: Platform.OS === 'ios' ? 8 : 6,
-          paddingTop: 6,
-          borderTopWidth: 1,
-        },
-        tabBarActiveTintColor: '#0D9488',
-        tabBarInactiveTintColor: '#9CA3AF',
-        tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: '600',
-        },
+        // Tab bar is replaced by PersistentTabBar in root _layout.tsx
+        tabBarStyle: { display: 'none' },
       }}
     >
       <Tabs.Screen

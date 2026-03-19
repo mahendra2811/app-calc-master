@@ -25,27 +25,25 @@
   --color-cat-math: 99 102 241;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: 17 24 39;
-    --color-surface: 31 41 55;
-    --color-surface-elevated: 55 65 81;
-    --color-primary: 45 212 191;
-    --color-primary-light: 94 234 212;
-    --color-secondary: 129 140 248;
-    --color-accent: 251 191 36;
-    --color-text: 243 244 246;
-    --color-text-secondary: 156 163 175;
-    --color-text-tertiary: 107 114 128;
-    --color-border: 75 85 99;
-    --color-error: 248 113 113;
-    --color-success: 74 222 128;
-    --color-warning: 251 146 60;
-    --color-btn-number: 55 65 81;
-    --color-btn-operator: 45 212 191;
-    --color-btn-equal: 74 222 128;
-    --color-btn-clear: 248 113 113;
-    --color-cat-finance: 45 212 191;
-    --color-cat-math: 129 140 248;
-  }
+.dark {
+  --color-background: 17 24 39;
+  --color-surface: 31 41 55;
+  --color-surface-elevated: 55 65 81;
+  --color-primary: 45 212 191;
+  --color-primary-light: 94 234 212;
+  --color-secondary: 129 140 248;
+  --color-accent: 251 191 36;
+  --color-text: 243 244 246;
+  --color-text-secondary: 156 163 175;
+  --color-text-tertiary: 107 114 128;
+  --color-border: 75 85 99;
+  --color-error: 248 113 113;
+  --color-success: 74 222 128;
+  --color-warning: 251 146 60;
+  --color-btn-number: 55 65 81;
+  --color-btn-operator: 45 212 191;
+  --color-btn-equal: 74 222 128;
+  --color-btn-clear: 248 113 113;
+  --color-cat-finance: 45 212 191;
+  --color-cat-math: 129 140 248;
 }

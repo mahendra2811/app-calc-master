@@ -1,0 +1,33 @@
+{
+  "project": {
+    "name": "CalcMaster",
+    "type": "expo-react-native",
+    "platform": "android",
+    "sdkVersion": "55"
+  },
+  "codeStyle": {
+    "styling": "nativewind-only",
+    "noStyleSheet": true,
+    "noInlineColors": true,
+    "useSemanticTokens": true
+  },
+  "conventions": {
+    "calculatorScreens": "must-use-react-memo",
+    "calculatorScreens2": "must-use-CalculatorShell",
+    "numberFormatting": "formatIndianCurrency-only",
+    "strings": "use-t()-from-useLanguage",
+    "storage": "use-storage-util-not-AsyncStorage-directly",
+    "packages": "npx-expo-install-not-npm-install"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npx expo*)",
+      "Bash(npx tsc*)",
+      "Bash(eas*)",
+      "Bash(npm install*)",
+      "Read(*)",
+      "Write(src/**)",
+      "Edit(src/**)"
+    ]
+  }
+}

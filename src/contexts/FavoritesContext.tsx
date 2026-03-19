@@ -6,9 +6,9 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from 'react';
-import { storage } from '@/utils/storage';
-import { STORAGE_KEYS } from '@/constants/storage-keys';
+} from "react";
+import { storage } from "@/utils/storage";
+import { STORAGE_KEYS } from "@/constants/storage-keys";
 
 interface FavoritesState {
   favorites: string[];
@@ -17,6 +17,7 @@ interface FavoritesState {
 interface FavoritesDispatch {
   toggleFavorite: (slug: string) => void;
   isFavorite: (slug: string) => boolean;
+  clearAllFavorites: () => void;
 }
 
 const FavoritesStateContext = createContext<FavoritesState | undefined>(undefined);
@@ -47,26 +48,24 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
 
   const toggleFavorite = useCallback((slug: string) => {
     setFavorites((prev) =>
-      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug],
+      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
     );
+  }, []);
+
+  const clearAllFavorites = useCallback(() => {
+    setFavorites([]);
   }, []);
 
   // Use a Set for O(1) lookups. We derive it from `favorites` via useMemo.
   const favoritesSet = useMemo(() => new Set(favorites), [favorites]);
 
-  const isFavorite = useCallback(
-    (slug: string): boolean => favoritesSet.has(slug),
-    [favoritesSet],
-  );
+  const isFavorite = useCallback((slug: string): boolean => favoritesSet.has(slug), [favoritesSet]);
 
-  const stateValue = useMemo<FavoritesState>(
-    () => ({ favorites }),
-    [favorites],
-  );
+  const stateValue = useMemo<FavoritesState>(() => ({ favorites }), [favorites]);
 
   const dispatchValue = useMemo<FavoritesDispatch>(
-    () => ({ toggleFavorite, isFavorite }),
-    [toggleFavorite, isFavorite],
+    () => ({ toggleFavorite, isFavorite, clearAllFavorites }),
+    [toggleFavorite, isFavorite, clearAllFavorites]
   );
 
   if (!isLoaded) return null;
@@ -85,7 +84,7 @@ export function useFavorites(): FavoritesState & FavoritesDispatch {
   const dispatch = useContext(FavoritesDispatchContext);
 
   if (!state || !dispatch) {
-    throw new Error('useFavorites must be used within a FavoritesProvider');
+    throw new Error("useFavorites must be used within a FavoritesProvider");
   }
 
   return useMemo(() => ({ ...state, ...dispatch }), [state, dispatch]);
@@ -94,7 +93,7 @@ export function useFavorites(): FavoritesState & FavoritesDispatch {
 export function useFavoritesState(): FavoritesState {
   const state = useContext(FavoritesStateContext);
   if (!state) {
-    throw new Error('useFavoritesState must be used within a FavoritesProvider');
+    throw new Error("useFavoritesState must be used within a FavoritesProvider");
   }
   return state;
 }
@@ -102,7 +101,7 @@ export function useFavoritesState(): FavoritesState {
 export function useFavoritesDispatch(): FavoritesDispatch {
   const dispatch = useContext(FavoritesDispatchContext);
   if (!dispatch) {
-    throw new Error('useFavoritesDispatch must be used within a FavoritesProvider');
+    throw new Error("useFavoritesDispatch must be used within a FavoritesProvider");
   }
   return dispatch;
 }

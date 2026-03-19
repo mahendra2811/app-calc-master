@@ -12,6 +12,27 @@ interface CalculatorInputProps {
   className?: string;
 }
 
+const NUMERIC_KEYBOARD_TYPES: KeyboardTypeOptions[] = [
+  'numeric',
+  'decimal-pad',
+  'number-pad',
+  'phone-pad',
+];
+
+function filterNumeric(text: string): string {
+  // Allow digits, one leading minus, one decimal point
+  let filtered = text.replace(/[^0-9.\-]/g, '');
+  // Only allow minus at start
+  const parts = filtered.split('-');
+  filtered = parts[0] === '' ? '-' + (parts[1] ?? '').replace(/-/g, '') : parts.join('').replace(/-/g, '');
+  // Only allow one decimal point
+  const decParts = filtered.split('.');
+  if (decParts.length > 2) {
+    filtered = decParts[0] + '.' + decParts.slice(1).join('');
+  }
+  return filtered;
+}
+
 export function CalculatorInput({
   label,
   value,
@@ -22,6 +43,12 @@ export function CalculatorInput({
   error,
   className = '',
 }: CalculatorInputProps) {
+  const isNumeric = NUMERIC_KEYBOARD_TYPES.includes(keyboardType);
+
+  const handleChange = (text: string) => {
+    onChangeText(isNumeric ? filterNumeric(text) : text);
+  };
+
   return (
     <View className={className}>
       {/* Label */}
@@ -38,7 +65,7 @@ export function CalculatorInput({
         <TextInput
           className="flex-1 py-3 text-base text-text"
           value={value}
-          onChangeText={onChangeText}
+          onChangeText={handleChange}
           placeholder={placeholder}
           placeholderTextColor="#9CA3AF"
           keyboardType={keyboardType}

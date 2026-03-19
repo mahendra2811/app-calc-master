@@ -16,7 +16,7 @@ interface AnimatedSplashProps {
 }
 
 const SYMBOLS = ['+', '\u2212', '\u00D7', '\u00F7', '=', '\u03C0', '\u221A', '%'];
-const STAGGER = 80;
+const STAGGER = 50; // faster stagger
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
 /** Generate a random offscreen position for a symbol */
@@ -80,27 +80,27 @@ function SymbolItem({
       withTiming(1, { duration: 200 }),
     );
 
-    // Phase 2: After all fly in (~800ms), scale down, rotate, and fade
-    const phase2Delay = SYMBOLS.length * STAGGER + 400;
+    // Phase 2: After all fly in (~500ms), scale down, rotate, and fade
+    const phase2Delay = SYMBOLS.length * STAGGER + 280;
     symbolScale.value = withDelay(
       phase2Delay,
-      withTiming(0.3, { duration: 500, easing: Easing.inOut(Easing.cubic) }),
+      withTiming(0.3, { duration: 350, easing: Easing.inOut(Easing.cubic) }),
     );
     symbolOpacity.value = withSequence(
-      withDelay(index * STAGGER, withTiming(1, { duration: 200 })),
-      withDelay(phase2Delay - index * STAGGER - 200, withTiming(0, { duration: 400 })),
+      withDelay(index * STAGGER, withTiming(1, { duration: 150 })),
+      withDelay(phase2Delay - index * STAGGER - 150, withTiming(0, { duration: 300 })),
     );
     rotation.value = withDelay(
       phase2Delay,
-      withTiming(360, { duration: 500, easing: Easing.inOut(Easing.cubic) }),
+      withTiming(360, { duration: 350, easing: Easing.inOut(Easing.cubic) }),
     );
     translateX.value = withSequence(
-      withDelay(index * STAGGER, withSpring(final.x, { damping: 12, stiffness: 100 })),
-      withDelay(phase2Delay - index * STAGGER, withTiming(0, { duration: 500 })),
+      withDelay(index * STAGGER, withSpring(final.x, { damping: 14, stiffness: 120 })),
+      withDelay(phase2Delay - index * STAGGER, withTiming(0, { duration: 350 })),
     );
     translateY.value = withSequence(
-      withDelay(index * STAGGER, withSpring(final.y, { damping: 12, stiffness: 100 })),
-      withDelay(phase2Delay - index * STAGGER, withTiming(0, { duration: 500 })),
+      withDelay(index * STAGGER, withSpring(final.y, { damping: 14, stiffness: 120 })),
+      withDelay(phase2Delay - index * STAGGER, withTiming(0, { duration: 350 })),
     );
   }, []);
 
@@ -142,35 +142,36 @@ export function AnimatedSplash({ onComplete }: AnimatedSplashProps) {
   }, [onComplete]);
 
   useEffect(() => {
-    const textDelay = SYMBOLS.length * STAGGER + 900;
+    // Total so far: 8*50 + 280 + 350 = ~1030ms for symbols to finish
+    const textDelay = SYMBOLS.length * STAGGER + 630;
 
     // Phase 3: Title fade in
     titleOpacity.value = withDelay(
       textDelay,
-      withTiming(1, { duration: 500, easing: Easing.out(Easing.cubic) }),
+      withTiming(1, { duration: 350, easing: Easing.out(Easing.cubic) }),
     );
     titleScale.value = withDelay(
       textDelay,
-      withSpring(1, { damping: 14, stiffness: 100 }),
+      withSpring(1, { damping: 14, stiffness: 120 }),
     );
 
-    // Phase 3b: Tagline fade in with 200ms extra delay
+    // Phase 3b: Tagline fade in with 150ms extra delay
     taglineOpacity.value = withDelay(
-      textDelay + 200,
-      withTiming(1, { duration: 400, easing: Easing.out(Easing.cubic) }),
+      textDelay + 150,
+      withTiming(1, { duration: 300, easing: Easing.out(Easing.cubic) }),
     );
 
-    // Phase 4: Fade out everything, then call onComplete (~2.5s total)
-    const fadeOutDelay = textDelay + 800;
+    // Phase 4: Fade out everything — total ~1.8s
+    const fadeOutDelay = textDelay + 550;
     containerOpacity.value = withDelay(
       fadeOutDelay,
-      withTiming(0, { duration: 400, easing: Easing.in(Easing.cubic) }),
+      withTiming(0, { duration: 300, easing: Easing.in(Easing.cubic) }),
     );
 
     // Schedule onComplete
     const timeout = setTimeout(() => {
       handleComplete();
-    }, fadeOutDelay + 450);
+    }, fadeOutDelay + 320);
 
     return () => clearTimeout(timeout);
   }, []);
@@ -189,15 +190,21 @@ export function AnimatedSplash({ onComplete }: AnimatedSplashProps) {
   }));
 
   return (
-    <Animated.View
-      style={[styles.container, containerAnimatedStyle]}
-    >
+    <Animated.View style={[styles.container, containerAnimatedStyle]}>
+      {/* Glowing circle behind symbols */}
+      <View style={styles.glowCircle} />
+
       {/* Math symbols */}
       <View style={styles.symbolsContainer}>
         {SYMBOLS.map((symbol, index) => (
           <SymbolItem key={symbol} symbol={symbol} index={index} />
         ))}
       </View>
+
+      {/* App icon / logo badge */}
+      <Animated.View style={[styles.logoBadge, titleAnimatedStyle]}>
+        <Text style={styles.logoEmoji}>🧮</Text>
+      </Animated.View>
 
       {/* Title */}
       <Animated.Text style={[styles.title, titleAnimatedStyle]}>
@@ -208,6 +215,13 @@ export function AnimatedSplash({ onComplete }: AnimatedSplashProps) {
       <Animated.Text style={[styles.tagline, taglineAnimatedStyle]}>
         Every calculation, one tap away
       </Animated.Text>
+
+      {/* Loading dots */}
+      <Animated.View style={[styles.dotsRow, taglineAnimatedStyle]}>
+        {[0, 1, 2].map((i) => (
+          <View key={i} style={[styles.dot, { opacity: 0.4 + i * 0.2 }]} />
+        ))}
+      </Animated.View>
     </Animated.View>
   );
 }
@@ -215,27 +229,60 @@ export function AnimatedSplash({ onComplete }: AnimatedSplashProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111827',
+    backgroundColor: '#0F172A',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  glowCircle: {
+    position: 'absolute',
+    width: 260,
+    height: 260,
+    borderRadius: 130,
+    backgroundColor: '#0D9488',
+    opacity: 0.08,
   },
   symbolsContainer: {
     width: 240,
     height: 120,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 40,
+    marginBottom: 32,
+  },
+  logoBadge: {
+    width: 64,
+    height: 64,
+    borderRadius: 20,
+    backgroundColor: '#134E4A',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+    borderWidth: 1.5,
+    borderColor: '#2DD4BF33',
+  },
+  logoEmoji: {
+    fontSize: 36,
   },
   title: {
-    fontSize: 40,
+    fontSize: 38,
     fontWeight: '800',
     color: '#2DD4BF',
-    letterSpacing: 1,
+    letterSpacing: 1.5,
   },
   tagline: {
-    fontSize: 16,
-    color: '#9CA3AF',
-    marginTop: 8,
-    letterSpacing: 0.5,
+    fontSize: 14,
+    color: '#94A3B8',
+    marginTop: 6,
+    letterSpacing: 0.4,
+  },
+  dotsRow: {
+    flexDirection: 'row',
+    marginTop: 28,
+    gap: 8,
+  },
+  dot: {
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    backgroundColor: '#2DD4BF',
   },
 });

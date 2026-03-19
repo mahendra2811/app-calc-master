@@ -68,11 +68,9 @@ export function ResultCard({
 
   const styles = typeStyles[type];
 
-  if (!visible && opacity.value === 0) return null;
-
   return (
     <Animated.View
-      style={animatedStyle}
+      style={[animatedStyle, !visible && { pointerEvents: 'none' }]}
       className={`rounded-card border ${styles.border} ${styles.bg} p-5`}
     >
       {/* Title */}
