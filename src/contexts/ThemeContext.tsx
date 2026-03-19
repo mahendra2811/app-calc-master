@@ -52,7 +52,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Sync NativeWind color scheme whenever resolved theme changes
   useEffect(() => {
     if (!isLoaded) return;
-    setColorScheme(resolved);
+    try {
+      setColorScheme(resolved);
+    } catch {
+      // On web with darkMode: 'media', manual setColorScheme may throw — safe to ignore
+    }
   }, [resolved, isLoaded, setColorScheme]);
 
   // Listen for system appearance changes when in 'system' mode

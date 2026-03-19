@@ -4,13 +4,13 @@ export default ({ config }) => ({
   slug: "calcmaster",
   version: "1.0.1",
   orientation: "default",
-  icon: "./assets/images/icon.png",
+  icon: "./assets/icon.png",
   scheme: "calcmaster",
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
 
   splash: {
-    image: "./assets/images/splash-icon.png",
+    image: "./assets/splash-icon.png",
     resizeMode: "contain",
     backgroundColor: "#111827",
   },
@@ -29,7 +29,8 @@ export default ({ config }) => ({
 
   android: {
     adaptiveIcon: {
-      foregroundImage: "./assets/images/adaptive-icon.png",
+      foregroundImage: "./assets/android-icon-foreground.png",
+      backgroundImage: "./assets/android-icon-background.png",
       backgroundColor: "#111827",
     },
     package: "com.calcmaster.app",
@@ -48,7 +49,7 @@ export default ({ config }) => ({
     [
       "expo-splash-screen",
       {
-        image: "./assets/images/splash-icon.png",
+        image: "./assets/splash-icon.png",
         imageWidth: 200,
         resizeMode: "contain",
         backgroundColor: "#111827",
