@@ -8,12 +8,14 @@
 
 **Cause:** NativeWind requires `darkMode: "class"` to allow manual theme switching.
 **Fix:** In `tailwind.config.js`:
+
 ```javascript
 module.exports = {
-  darkMode: "class",  // ← THIS LINE
+  darkMode: "class", // ← THIS LINE
   // ...
-}
+};
 ```
+
 Also wrap `setColorScheme()` in try-catch in `ThemeContext.tsx`.
 
 ---
@@ -22,9 +24,11 @@ Also wrap `setColorScheme()` in try-catch in `ThemeContext.tsx`.
 
 **Cause:** `react-native-web` not installed (this is an Android-first app).
 **Fix:** Either install it for web dev:
+
 ```bash
 npx expo install react-native-web react-dom
 ```
+
 Or ignore — only affects web (`w` key in dev server). Android Expo Go works fine.
 
 ---
@@ -33,9 +37,11 @@ Or ignore — only affects web (`w` key in dev server). Android Expo Go works fi
 
 **Cause:** `react-dom@19.2.4` (web dependency) needs newer React.
 **Fix:**
+
 ```bash
 npm install react@19.2.4 react-dom@19.2.4 --legacy-peer-deps
 ```
+
 Or update in `package.json`: `"react": "19.2.4"`
 
 ---
@@ -44,6 +50,7 @@ Or update in `package.json`: `"react": "19.2.4"`
 
 **Cause:** Node.js v24+ blocks loading `.ts` files from node_modules for type generation.
 **Fix:** In `app.config.js`, remove or disable:
+
 ```javascript
 experiments: {
   typedRoutes: false,  // or remove this block entirely
@@ -56,6 +63,7 @@ experiments: {
 
 **Cause:** Manually installed packages with wrong versions.
 **Fix:** Always use `npx expo install` instead of `npm install`:
+
 ```bash
 npx expo install package-name    # installs correct version for SDK 55
 npx expo install --fix           # fixes all version mismatches
@@ -67,6 +75,7 @@ npx expo install --fix           # fixes all version mismatches
 
 **Cause:** Missing Reanimated babel plugin or not clearing cache.
 **Fix:**
+
 1. Verify `babel.config.js` has `"react-native-reanimated/plugin"` as **last** plugin
 2. Clear cache: `npx expo start --clear`
 
@@ -76,6 +85,7 @@ npx expo install --fix           # fixes all version mismatches
 
 **Cause:** `global.css` not imported, or content paths wrong in tailwind config.
 **Fix:**
+
 1. Check `src/app/_layout.tsx` imports `'../../../global.css'`
 2. Check `tailwind.config.js` content: `["./src/**/*.{js,jsx,ts,tsx}"]`
 3. Run `npx expo start --clear`
@@ -86,6 +96,7 @@ npx expo install --fix           # fixes all version mismatches
 
 **Cause:** Passing `undefined` as key (usually from `STORAGE_KEYS.CALC_HISTORY(undefined)`).
 **Fix:** Always validate calcId before calling storage:
+
 ```typescript
 if (!calcId) return;
 storage.get(STORAGE_KEYS.CALC_HISTORY(calcId), []);
@@ -97,9 +108,11 @@ storage.get(STORAGE_KEYS.CALC_HISTORY(calcId), []);
 
 **Cause:** Calculator slug not in `calculatorRegistry`.
 **Fix:** Add entry to `src/utils/calculator-registry.ts`:
+
 ```typescript
 'my-new-slug': MyNewCalculator,
 ```
+
 Also add metadata to `src/constants/calculators.ts`.
 
 ---
@@ -108,6 +121,7 @@ Also add metadata to `src/constants/calculators.ts`.
 
 **Cause:** Key doesn't exist in translation file.
 **Fix:**
+
 1. Check `src/i18n/locales/en.ts` has the key
 2. Check `src/i18n/locales/hi.ts` has the same key
 3. Verify `i18n.enableFallback = true` in `src/i18n/index.ts`
@@ -118,16 +132,18 @@ Also add metadata to `src/constants/calculators.ts`.
 
 **Cause:** Usually a JS runtime error. Check Metro console.
 **Fix:**
+
 1. Check Metro terminal for the actual error
 2. Press `j` in Metro to open debugger
 3. Look for: missing imports, undefined variables, circular dependencies
 
 ---
 
-### ❌ "Module not found: @/*" path alias not working
+### ❌ "Module not found: @/\*" path alias not working
 
 **Cause:** `tsconfig.json` paths not set up or Metro doesn't know about them.
 **Fix:** Verify `tsconfig.json`:
+
 ```json
 {
   "compilerOptions": {
@@ -136,25 +152,54 @@ Also add metadata to `src/constants/calculators.ts`.
   }
 }
 ```
+
 And `babel.config.js` must use `babel-preset-expo` (handles path aliases).
 
 ---
 
-### ❌ EAS Build fails on Android
+### ❌ EAS Build fails: "Failed to resolve plugin for module react-native-google-mobile-ads"
+
+**Cause:** Plugin referenced in `app.config.js` but package not installed.
+**Fix:** The AdMob and Firebase plugins are now commented out by default in `app.config.js`.
+
+✅ **Already fixed** — see [`docs/EAS-BUILD-FIX.md`](.claude/docs/EAS-BUILD-FIX.md) for details.
+
+To enable ads later:
+
+1. Install packages: `npx expo install react-native-google-mobile-ads`
+2. Uncomment plugin config in `app.config.js`
+3. Add `.env` with AdMob credentials
+4. Rebuild with `eas build`
+
+---
+
+### ❌ EAS Build fails: "cli.appVersionSource is not set"
+
+**Cause:** Missing required field in app config.
+**Fix:** Already added to `app.config.js`:
+
+```javascript
+cli: {
+  appVersionSource: "remote",
+}
+```
+
+---
+
+### ❌ EAS Build fails on Android (Other Issues)
 
 **Common causes and fixes:**
 
-1. **google-services.json missing** — add placeholder or disable Firebase:
-   ```bash
-   EXPO_PUBLIC_FIREBASE_ENABLED=false
-   ```
+1. **google-services.json missing** — Firebase plugins are commented out by default, so this shouldn't occur unless you've enabled Firebase
 
 2. **Keystore not configured** — run:
+
    ```bash
    eas credentials
    ```
 
 3. **compileSdkVersion mismatch** — in `app.config.js`:
+
    ```javascript
    android: { compileSdkVersion: 35, targetSdkVersion: 35 }
    ```
@@ -166,17 +211,20 @@ And `babel.config.js` must use `babel-preset-expo` (handles path aliases).
 ## Performance Debugging
 
 ### App feels slow
+
 1. Check all calculator screens have `React.memo()`
 2. Check context values are wrapped in `useMemo()`
 3. Verify `useCallback()` on all dispatch functions
 4. Run with Flipper profiler or React DevTools
 
 ### History loading slowly
+
 - Check `src/utils/storage.ts` cache is working (first load slow is normal)
 - Verify history limits (50/calculator, 200 global)
 - If still slow, check for missing `keyExtractor` on FlatList
 
 ### Animations janky
+
 - Reanimated animations must run on UI thread (use `useAnimatedStyle`)
 - Avoid heavy JS computation in animated components
 - Clear Metro cache: `npx expo start --clear`

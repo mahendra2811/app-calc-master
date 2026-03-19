@@ -9,6 +9,10 @@ export default ({ config }) => ({
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
 
+  cli: {
+    appVersionSource: "remote",
+  },
+
   splash: {
     image: "./assets/splash-icon.png",
     resizeMode: "contain",
@@ -72,24 +76,26 @@ export default ({ config }) => ({
         },
       },
     ],
-    ...(process.env.EXPO_PUBLIC_ADS_ENABLED === "true"
-      ? [
-          [
-            "react-native-google-mobile-ads",
-            {
-              androidAppId:
-                process.env.EXPO_PUBLIC_ADMOB_ANDROID_APP_ID ||
-                "ca-app-pub-0000000000000000~0000000000",
-              iosAppId:
-                process.env.EXPO_PUBLIC_ADMOB_IOS_APP_ID ||
-                "ca-app-pub-0000000000000000~0000000000",
-            },
-          ],
-        ]
-      : []),
-    ...(process.env.EXPO_PUBLIC_FIREBASE_ENABLED === "true"
-      ? ["@react-native-firebase/app", "@react-native-firebase/analytics"]
-      : []),
+    // AdMob and Firebase plugins are commented out by default
+    // Uncomment and install packages when ready to use:
+    // ...(process.env.EXPO_PUBLIC_ADS_ENABLED === "true"
+    //   ? [
+    //       [
+    //         "react-native-google-mobile-ads",
+    //         {
+    //           androidAppId:
+    //             process.env.EXPO_PUBLIC_ADMOB_ANDROID_APP_ID ||
+    //             "ca-app-pub-0000000000000000~0000000000",
+    //           iosAppId:
+    //             process.env.EXPO_PUBLIC_ADMOB_IOS_APP_ID ||
+    //             "ca-app-pub-0000000000000000~0000000000",
+    //         },
+    //       ],
+    //     ]
+    //   : []),
+    // ...(process.env.EXPO_PUBLIC_FIREBASE_ENABLED === "true"
+    //   ? ["@react-native-firebase/app", "@react-native-firebase/analytics"]
+    //   : []),
   ],
 
   experiments: {
@@ -100,7 +106,7 @@ export default ({ config }) => ({
     adsEnabled: process.env.EXPO_PUBLIC_ADS_ENABLED === "true",
     analyticsEnabled: process.env.EXPO_PUBLIC_ANALYTICS_ENABLED === "true",
     eas: {
-      projectId: "your-project-id-here",
+      projectId: "ee5c99cc-d923-468a-8d39-51e2e77a99ff",
     },
   },
 });
