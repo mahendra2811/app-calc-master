@@ -8,7 +8,7 @@ const registry: Record<string, LazyComponent> = {
     () => import('../screens/calculators/SIPCalculator')
   ),
   'lumpsum-calculator': React.lazy(
-    () => import('../screens/calculators/LumpsumCalculator')
+    () => import('../screens/calculators/LumpSumCalculator')
   ),
   'emi-calculator': React.lazy(
     () => import('../screens/calculators/EMICalculator')
@@ -68,7 +68,7 @@ const registry: Record<string, LazyComponent> = {
     () => import('../screens/calculators/EPFCalculator')
   ),
   'home-loan-vs-rent': React.lazy(
-    () => import('../screens/calculators/HomeLoanVsRentCalculator')
+    () => import('../screens/calculators/HomeLoanVsRent')
   ),
   'net-worth': React.lazy(
     () => import('../screens/calculators/NetWorthCalculator')
@@ -91,10 +91,10 @@ const registry: Record<string, LazyComponent> = {
     () => import('../screens/calculators/FractionCalculator')
   ),
   'number-system': React.lazy(
-    () => import('../screens/calculators/NumberSystemCalculator')
+    () => import('../screens/calculators/NumberSystemConverter')
   ),
   'prime-checker': React.lazy(
-    () => import('../screens/calculators/PrimeCheckerCalculator')
+    () => import('../screens/calculators/PrimeChecker')
   ),
   'gcd-lcm': React.lazy(
     () => import('../screens/calculators/GCDLCMCalculator')
@@ -106,13 +106,13 @@ const registry: Record<string, LazyComponent> = {
     () => import('../screens/calculators/MatrixCalculator')
   ),
   'quadratic-solver': React.lazy(
-    () => import('../screens/calculators/QuadraticSolverCalculator')
+    () => import('../screens/calculators/QuadraticSolver')
   ),
   'logarithm-calculator': React.lazy(
     () => import('../screens/calculators/LogarithmCalculator')
   ),
   'permutation-combination': React.lazy(
-    () => import('../screens/calculators/PermutationCombinationCalculator')
+    () => import('../screens/calculators/PermutationCombination')
   ),
 };
 

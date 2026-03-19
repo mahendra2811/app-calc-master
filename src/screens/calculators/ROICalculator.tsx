@@ -109,7 +109,7 @@ const ROICalculator = React.memo(function ROICalculator() {
             title={t('calculators.roi.roiPercent')}
             value={formatPercentage(result.roiPercent)}
             subtitle={`${t('calculators.roi.annualizedROI')}: ${formatPercentage(result.annualizedROI)}`}
-            type={result.totalProfit >= 0 ? 'success' : 'danger'}
+            type={result.totalProfit >= 0 ? 'success' : 'error'}
             visible={!!result}
           />
 

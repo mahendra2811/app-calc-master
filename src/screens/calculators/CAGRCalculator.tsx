@@ -111,7 +111,7 @@ const CAGRCalculator = React.memo(function CAGRCalculator() {
             title={t('calculators.cagr.cagrPercent')}
             value={formatPercentage(result.cagr)}
             subtitle={`${t('calculators.cagr.absoluteReturn')}: ${formatPercentage(result.absoluteReturn)}`}
-            type={result.totalGain >= 0 ? 'success' : 'danger'}
+            type={result.totalGain >= 0 ? 'success' : 'error'}
             visible={!!result}
           />
 

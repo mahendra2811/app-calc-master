@@ -45,7 +45,6 @@ export default ({ config }) => ({
   plugins: [
     "expo-router",
     "expo-localization",
-    "expo-haptics",
     [
       "expo-splash-screen",
       {
@@ -93,7 +92,7 @@ export default ({ config }) => ({
   ],
 
   experiments: {
-    typedRoutes: true,
+    typedRoutes: false,
   },
 
   extra: {
