@@ -31,7 +31,11 @@ yarn-error.*
 *.pem
 
 # local env files
+.env
 .env*.local
+assets/google-services.json
+assets/google-services/
+pc-api-key.json
 
 # typescript
 *.tsbuildinfo

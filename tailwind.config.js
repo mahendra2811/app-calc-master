@@ -1,0 +1,44 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  presets: [require("nativewind/preset")],
+  theme: {
+    extend: {
+      colors: {
+        background: "rgb(var(--color-background) / <alpha-value>)",
+        surface: "rgb(var(--color-surface) / <alpha-value>)",
+        "surface-elevated": "rgb(var(--color-surface-elevated) / <alpha-value>)",
+        primary: "rgb(var(--color-primary) / <alpha-value>)",
+        "primary-light": "rgb(var(--color-primary-light) / <alpha-value>)",
+        secondary: "rgb(var(--color-secondary) / <alpha-value>)",
+        accent: "rgb(var(--color-accent) / <alpha-value>)",
+        text: "rgb(var(--color-text) / <alpha-value>)",
+        "text-secondary": "rgb(var(--color-text-secondary) / <alpha-value>)",
+        "text-tertiary": "rgb(var(--color-text-tertiary) / <alpha-value>)",
+        border: "rgb(var(--color-border) / <alpha-value>)",
+        error: "rgb(var(--color-error) / <alpha-value>)",
+        success: "rgb(var(--color-success) / <alpha-value>)",
+        warning: "rgb(var(--color-warning) / <alpha-value>)",
+        "btn-number": "rgb(var(--color-btn-number) / <alpha-value>)",
+        "btn-operator": "rgb(var(--color-btn-operator) / <alpha-value>)",
+        "btn-equal": "rgb(var(--color-btn-equal) / <alpha-value>)",
+        "btn-clear": "rgb(var(--color-btn-clear) / <alpha-value>)",
+        "cat-finance": "rgb(var(--color-cat-finance) / <alpha-value>)",
+        "cat-math": "rgb(var(--color-cat-math) / <alpha-value>)",
+      },
+      borderRadius: {
+        btn: "12px",
+        card: "16px",
+        chip: "20px",
+        input: "10px",
+      },
+      screens: {
+        xs: "320px",
+        sm: "480px",
+        md: "768px",
+        lg: "1024px",
+      },
+    },
+  },
+  plugins: [],
+};
