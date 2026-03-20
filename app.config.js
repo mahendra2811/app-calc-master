@@ -22,13 +22,6 @@ export default ({ config }) => ({
   ios: {
     supportsTablet: true,
     bundleIdentifier: "com.calcmaster.app",
-    infoPlist: {
-      NSUserTrackingUsageDescription:
-        "This allows CalcMaster to provide personalized ads. You can opt out anytime.",
-    },
-    ...(process.env.EXPO_PUBLIC_FIREBASE_ENABLED === "true" && {
-      googleServicesFile: "./assets/google-services/GoogleService-Info.plist",
-    }),
   },
 
   android: {
@@ -37,15 +30,11 @@ export default ({ config }) => ({
       backgroundImage: "./assets/android-icon-background.png",
       backgroundColor: "#111827",
     },
-    googleServicesFile: "./assets/google-services.json",
     package: "com.calcmaster.app",
     versionCode: 2,
     minSdkVersion: 24,
     compileSdkVersion: 35,
     targetSdkVersion: 35,
-    ...(process.env.EXPO_PUBLIC_FIREBASE_ENABLED === "true" && {
-      googleServicesFile: "./assets/google-services.json",
-    }),
   },
 
   plugins: [
@@ -78,26 +67,10 @@ export default ({ config }) => ({
       },
     ],
 
-    // AdMob and Firebase plugins are commented out by default
-    // Uncomment and install packages when ready to use:
-    // ...(process.env.EXPO_PUBLIC_ADS_ENABLED === "true"
-    //   ? [
-    //       [
-    //         "react-native-google-mobile-ads",
-    //         {
-    //           androidAppId:
-    //             process.env.EXPO_PUBLIC_ADMOB_ANDROID_APP_ID ||
-    //             "ca-app-pub-0000000000000000~0000000000",
-    //           iosAppId:
-    //             process.env.EXPO_PUBLIC_ADMOB_IOS_APP_ID ||
-    //             "ca-app-pub-0000000000000000~0000000000",
-    //         },
-    //       ],
-    //     ]
-    //   : []),
-    // ...(process.env.EXPO_PUBLIC_FIREBASE_ENABLED === "true"
-    //   ? ["@react-native-firebase/app", "@react-native-firebase/analytics"]
-    //   : []),
+    // Phase 2: AdMob + Firebase plugins — add when credentials are ready
+    // ["react-native-google-mobile-ads", { androidAppId: "...", iosAppId: "..." }],
+    // "@react-native-firebase/app",
+    // "@react-native-firebase/analytics",
   ],
 
   experiments: {
