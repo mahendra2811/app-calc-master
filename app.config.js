@@ -59,6 +59,12 @@ export default ({ config }) => ({
           enableProguardInReleaseBuilds: true,
           enableShrinkResourcesInReleaseBuilds: true,
           useLegacyPackaging: false,
+          packagingOptions: {
+            pickFirst: [
+              "**/libc++_shared.so",
+              "**/libfbjni.so",
+            ],
+          },
         },
         ios: {
           deploymentTarget: "15.1",
