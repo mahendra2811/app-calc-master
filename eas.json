@@ -11,6 +11,9 @@
       "android": { "buildType": "apk" }
     },
     "production": {
+      "android": { "buildType": "app-bundle" }
+    },
+    "production-with-ads": {
       "android": { "buildType": "app-bundle" },
       "env": {
         "EXPO_PUBLIC_ADS_ENABLED": "true",

@@ -141,7 +141,7 @@ eas build --platform android --profile production
 
 ## 📋 Build Profiles
 
-Your [`eas.json`](eas.json) has three profiles:
+Your [`eas.json`](../eas.json) has four profiles:
 
 ### 1. **Preview** (Recommended for Testing)
 
@@ -162,15 +162,25 @@ eas build --platform android --profile development
 - Includes dev client
 - For debugging with Expo Go features
 
-### 3. **Production** (For Play Store)
+### 3. **Production** (For Play Store - No Ads)
 
 ```bash
 eas build --platform android --profile production
 ```
 
 - Builds AAB (required for Play Store)
+- Ads/Analytics **disabled** by default
+- Use this for initial Play Store release
+
+### 4. **Production with Ads** (For Monetized Release)
+
+```bash
+eas build --platform android --profile production-with-ads
+```
+
+- Builds AAB (required for Play Store)
 - Ads/Analytics **enabled** automatically
-- Requires credentials in `.env`
+- Requires credentials in `.env` and `google-services.json`
 
 ---
 

@@ -33,8 +33,8 @@ yarn-error.*
 # local env files
 .env
 .env*.local
-assets/google-services.json
-assets/google-services/
+# assets/google-services.json  # Commented out to allow EAS Build
+assets/google-services/GoogleService-Info.plist
 pc-api-key.json
 
 # typescript

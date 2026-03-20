@@ -37,6 +37,7 @@ export default ({ config }) => ({
       backgroundImage: "./assets/android-icon-background.png",
       backgroundColor: "#111827",
     },
+    googleServicesFile: "./assets/google-services.json",
     package: "com.calcmaster.app",
     versionCode: 2,
     minSdkVersion: 24,
@@ -76,6 +77,7 @@ export default ({ config }) => ({
         },
       },
     ],
+
     // AdMob and Firebase plugins are commented out by default
     // Uncomment and install packages when ready to use:
     // ...(process.env.EXPO_PUBLIC_ADS_ENABLED === "true"
