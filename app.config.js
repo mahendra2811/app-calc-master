@@ -33,8 +33,8 @@ export default ({ config }) => ({
     package: "com.calcmaster.app",
     versionCode: 2,
     minSdkVersion: 24,
-    compileSdkVersion: 35,
-    targetSdkVersion: 35,
+    compileSdkVersion: 36,
+    targetSdkVersion: 36,
   },
 
   plugins: [
@@ -54,8 +54,8 @@ export default ({ config }) => ({
       {
         android: {
           minSdkVersion: 24,
-          compileSdkVersion: 35,
-          targetSdkVersion: 35,
+          compileSdkVersion: 36,
+          targetSdkVersion: 36,
           enableProguardInReleaseBuilds: true,
           enableShrinkResourcesInReleaseBuilds: true,
           useLegacyPackaging: false,

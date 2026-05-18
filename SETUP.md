@@ -179,3 +179,9 @@ src/
 
 **Peer dependency conflicts on npm install**
 → Run: `npm install --legacy-peer-deps`
+
+---
+
+## 11. Distributing to users
+
+This guide covers **local dev**. For shipping the APK to end users via the public landing site, see [`DISTRIBUTE.md`](./DISTRIBUTE.md). It documents the full flow: build with EAS → drop APK into the [`calcMaster-web`](../../../a_web/calcMaster-web/) sister project → deploy to Vercel.
