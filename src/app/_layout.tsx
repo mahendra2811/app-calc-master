@@ -6,20 +6,21 @@ import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
 import { Providers } from '@/contexts/Providers';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { AnimatedSplash } from '@/components/AnimatedSplash';
+import { StartupSequence } from '@/startup';
 import { PersistentTabBar } from '@/components/PersistentTabBar';
 
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync().catch(() => {});
 
 function AppShell() {
   const [showSplash, setShowSplash] = useState(true);
   const pathname = usePathname();
 
   useEffect(() => {
-    // Give contexts time to load from storage
+    // StartupSequence will hide the native splash itself once it mounts
+    // (zero white-flash handoff). Fallback hide here is a safety net only.
     const timer = setTimeout(() => {
-      SplashScreen.hideAsync();
-    }, 100);
+      SplashScreen.hideAsync().catch(() => {});
+    }, 600);
     return () => clearTimeout(timer);
   }, []);
 
@@ -49,7 +50,7 @@ function AppShell() {
             bottom: 0,
           }}
         >
-          <AnimatedSplash onComplete={onSplashComplete} />
+          <StartupSequence onComplete={onSplashComplete} />
         </View>
       )}
     </View>
