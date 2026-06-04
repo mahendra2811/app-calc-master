@@ -29,8 +29,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Create android/app directory
-        run: mkdir -p android/app
+      - name: Generate android folder via expo prebuild
+        run: npx expo prebuild --platform android --clean
 
       - name: Decode keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/release.keystore
@@ -76,7 +76,6 @@ jobs:
           body: |
             ### CalcMaster v${{ steps.info.outputs.VERSION }}
             Download the APK below and install on your Android device.
-            Built from commit ${{ github.sha }}
           files: calcmaster-v${{ steps.info.outputs.VERSION }}.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
